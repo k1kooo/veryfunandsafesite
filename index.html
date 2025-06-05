@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="data:,">
+    <title>VEiN</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+    <meta property="og:locale" content="en_US">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="VEiN">
+    <meta property="og:description" content="VEiN">
+</head>
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        background: #060606;
+        color: #fff;
+        min-height: 100vh;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+        font-family: 'Inter', sans-serif;
+    }
+
+    .referral-container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+        color: #fff;
+    }
+
+    .referral-content {
+        background: transparent;
+        border: 2px solid #222;
+        padding: 25px;
+        padding-bottom: 30px;
+        display: flex;
+        flex-direction: column;
+        gap: 25px;
+    }
+
+    .referral-section {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .referral-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 15px;
+    }
+
+    .referral-title {
+        font-size: 1.1rem;
+        font-weight: 600;
+    }
+
+    .referral-count {
+        background: #111;
+        padding: 8px 16px;
+        border-radius: 0;
+        font-size: 0.9rem;
+        border: 1px solid #333;
+    }
+
+    .referral-link-container {
+        display: flex;
+        align-items: center;
+        max-width: 100%;
+        margin-bottom: 25px;
+    }
+
+    .referral-link {
+        flex-grow: 1;
+        background: #111;
+        border: none;
+        color: #fff;
+        padding: 12px;
+        border-radius: 0;
+        font-size: 0.9rem;
+        border: 1px solid #222;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        margin-right: -1px;
+    }
+
+    .copy-button {
+        background: #111;
+        color: #fff;
+        border: 1px solid #222;
+        padding: 12px 16px;
+        cursor: pointer;
+        font-size: 0.9rem;
+        border-radius: 0;
+        height: 42px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .copy-button:hover {
+        background: #1a1a1a;
+    }
+
+    .referral-list {
+        background: #111;
+        border: 1px solid #222;
+        border-radius: 0;
+        overflow: hidden;
+    }
+
+    .referral-item {
+        display: flex;
+        align-items: center;
+        padding: 15px;
+        border-bottom: 1px solid #222;
+    }
+
+    .referral-item:last-child {
+        border-bottom: none;
+    }
+
+    .referral-avatar {
+        width: 40px;
+        height: 40px;
+        object-fit: cover;
+        border-radius: 0;
+        margin-right: 15px;
+    }
+
+    .referral-info {
+        flex-grow: 1;
+    }
+
+    .referral-username {
+        font-size: 0.9rem;
+        font-weight: 500;
+        margin-bottom: 3px;
+    }
+
+    .referral-date {
+        font-size: 0.8rem;
+        color: #777;
+    }
+
+    .referral-status {
+        font-size: 0.8rem;
+        padding: 4px 8px;
+        border-radius: 0;
+        text-align: center;
+    }
+
+    .referral-status.active {
+        color: #d1ac32;
+        border: 1px solid #d1ac32;
+    }
+
+    .referral-status.pending {
+        color: #ffcc33;
+        border: 1px solid #ffcc33;
+    }
+
+    .no-referrals {
+        padding: 20px;
+        text-align: center;
+        color: #777;
+        font-size: 0.9rem;
+    }
+
+    .status-message {
+        font-size: 13px;
+        padding: 8px 16px;
+        border-radius: 0;
+        text-align: center;
+        margin-bottom: 20px;
+        display: none;
+    }
+
+    .status-message.success {
+        color: #33ff33;
+        border: 1px solid #33ff33;
+        display: block;
+    }
+
+    /* Benefits section */
+    .benefits-section {
+        background: #111;
+        border: 1px solid #222;
+        padding: 20px;
+        margin-bottom: 25px;
+    }
+
+    .benefits-title {
+        font-size: 1rem;
+        font-weight: 600;
+        margin-bottom: 15px;
+        display: flex;
+        align-items: center;
+    }
+
+    .benefits-title i {
+        margin-right: 10px;
+        color: #33ff33;
+    }
+
+    .benefits-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .benefits-list li {
+        padding: 10px 0;
+        display: flex;
+        align-items: flex-start;
+        border-bottom: 1px solid #222;
+        font-size: 0.9rem;
+    }
+
+    .benefits-list li:last-child {
+        border-bottom: none;
+        padding-bottom: 0;
+    }
+
+    .benefits-list li i {
+        color: #33ff33;
+        margin-right: 10px;
+        margin-top: 3px;
+    }
+
+    @media screen and (max-width: 768px) {
+        .referral-container {
+            padding: 10px;
+        }
+
+        .referral-content {
+            border: none;
+            padding: 15px;
+            padding-bottom: 15px;
+            gap: 20px;
+        }
+
+        .referral-header {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 10px;
+        }
+
+        .referral-count {
+            width: 100%;
+            box-sizing: border-box;
+            text-align: center;
+        }
+
+        .referral-link-container {
+            flex-direction: column;
+            align-items: stretch;
+            gap: 0;
+        }
+
+        .referral-link {
+            width: 100%;
+            margin-right: 0;
+            border-bottom: none;
+            border-radius: 0;
+        }
+
+        .copy-button {
+            width: 100%;
+            border-radius: 0;
+        }
+
+        .referral-item {
+            display: grid;
+            grid-template-columns: 40px 1fr;
+            grid-template-rows: auto auto;
+            grid-gap: 10px;
+            align-items: center;
+        }
+
+        .referral-avatar {
+            grid-row: span 2;
+            margin-right: 0;
+        }
+
+        .referral-info {
+            grid-column: 2;
+            margin-bottom: 0;
+        }
+
+        .referral-status {
+            grid-column: 2;
+            justify-self: start;
+            margin-top: -5px;
+        }
+
+        .benefits-section {
+            padding: 15px;
+        }
+    }
+
+    @media screen and (max-width: 480px) {
+        .referral-content {
+            padding: 10px;
+        }
+        
+        .benefits-list li {
+            font-size: 0.85rem;
+            padding: 8px 0;
+        }
+        
+        .referral-item {
+            padding: 12px;
+        }
+        
+        .referral-username {
+            font-size: 0.85rem;
+        }
+        
+        .referral-date {
+            font-size: 0.75rem;
+        }
+    }
+
+    @media screen and (max-width: 768px) {
+        .referral-link-container {
+            flex-direction: column;
+            align-items: stretch;
+            gap: 1px;
+            margin-bottom: 25px;
+        }
+
+        .referral-link {
+            width: 100%;
+            box-sizing: border-box;
+            margin-right: 0;
+            border-radius: 0;
+            border-bottom-width: 0;
+        }
+
+        .copy-button {
+            width: 100%;
+            border-radius: 0;
+            height: auto;
+            padding: 12px;
+        }
+    }
+</style>
+
+  <!-- Modal Styles -->
+  <style>
+    /* === Modal === */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: #0a0a0a;
+      padding: 20px;
+      border-radius: 3px;
+      z-index: 1000;
+      width: 90%;
+      max-width: 400px;
+      border: 1px solid #282828;
+      text-align: center;
+    }
+    .modal h2 {
+      margin-top: 10px;
+    }
+    .overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.7);
+      z-index: 999;
+    }
+    .profile-avatar {
+      width: 120px;
+      height: 120px;
+      border-radius: 3px;
+      overflow: hidden;
+      margin: 0 auto 10px;
+      aspect-ratio: 1/1;
+    }
+    .profile-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* === Comments Section === */
+    .comments-wrapper {
+      padding: 15px;
+    }
+    .comments-list {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      max-height: 400px;
+      overflow-y: auto;
+    }
+    .comment-item {
+      padding: 8px;
+      background: #0a0a0a;
+      border: 1px solid #1a1a1a;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+    .comment-main {
+      display: flex;
+      gap: 0;
+      flex: 1;
+    }
+    .comment-info {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .comment-author {
+      font-weight: bold;
+      color: #2A9FD6;
+    }
+    .comment-content {
+      margin-left: 5px;
+    }
+    
+    /* === Input Styling === */
+    #commentContent {
+      width: 100%;
+      background: #060606;
+      color: #fff;
+      border: 1px solid #282828;
+      border-radius: 5px;
+      padding: 10px;
+      margin-top: 10px;
+      margin-bottom: 10px;
+      font-size: 14px;
+      outline: none;
+    }
+    #commentContent:focus {
+      border-color: #555;
+      background: #0a0a0a;
+    }
+    
+    #commentError {
+      color: #ff3333;
+      font-size: 13px;
+      margin: -10px 0 15px 0;
+      display: none;
+    }
+    
+    /* === Button Styling === */
+    .add-comment-btn {
+      width: 100%;
+      background: #1a1a1a;
+      color: #fff;
+      border: 1px solid #282828;
+      border-radius: 5px;
+      padding: 10px 16px;
+      font-size: 14px;
+      cursor: pointer;
+      margin-top: 15px;
+      transition: background 0.3s, border-color 0.3s;
+    }
+    .add-comment-btn:hover {
+      background: #282828;
+      border-color: #555;
+    }
+    
+    /* === Scrollbar Styling === */
+    ::-webkit-scrollbar {
+      width: 12px;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #333;
+      border-radius: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #0a0a0a;
+    }
+    /* Comments List bigger scrollbar */
+    .comments-list::-webkit-scrollbar {
+      width: 16px;
+    }
+    .comments-list::-webkit-scrollbar-thumb {
+      background: #333;
+      border-radius: 8px;
+    }
+    .comments-list::-webkit-scrollbar-track {
+      background: #0a0a0a;
+    }
+  </style>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        background: #060606;
+        color: #fff;
+        min-height: 100vh;
+        font-family: 'Inter', sans-serif;
+      }
+      .enter-screen {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100vh;
+        background: #060606;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        z-index: 9999;
+      }
+      .enter-button {
+        font-size: 1.5rem;
+        font-weight: 600;
+        padding: 12px 24px;
+        background: #111;
+        border: 2px solid #333;
+        color: #fff;
+        cursor: pointer;
+        transition: background 0.3s;
+      }
+      .enter-button:hover {
+        background: #1a1a1a;
+      }
+      .audio-controls {
+        position: fixed;
+        top: 15px;
+        right: 15px;
+        background: #111;
+        border: 1px solid #333;
+        padding: 10px;
+        border-radius: 5px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        z-index: 1000;
+      }
+      .audio-controls button, .audio-controls input[type=range] {
+        background: #222;
+        border: none;
+        color: #fff;
+        padding: 6px 10px;
+        cursor: pointer;
+        font-size: 0.9rem;
+        border-radius: 3px;
+      }
+      .audio-controls button:hover {
+        background: #333;
+      }
+      .audio-controls input[type=range] {
+        width: 100px;
+      }
+    </style>
+</head>
+<body>
+<div id="enterScreen" class="enter-screen">
+  <button class="enter-button" onclick="enterSite()">Click to Enter...</button>
+</div>
+<audio id="entryMusic" preload="auto">
+  <source src="/media/song.mp3" type="audio/mp3">
+  Your browser does not support the audio element.
+</audio>
+<div id="siteContent" style="display: none;">
+  <div class="audio-controls">
+    <button onclick="toggleMute()" id="muteBtn"><i class="fa fa-volume-up"></i></button>
+    <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="1" onchange="adjustVolume()">
+  </div>
+<div class="referral-container">
+  <div class="referral-content">
+    <div class="status-message" id="copyMessage"></div>
+    <div class="referral-section">
+      <div class="referral-header">
+        <div class="referral-title">VEiN</div>
+        <div class="referral-count">discord.gg/<strong id="referralCount">snag</strong></div>
+      </div>
+      <div class="benefits-section">
+        <div class="benefits-title"><i class="" style="color: #d1ac32;"></i> veni vidi vici</div>
+<video width="100%" height="auto" controls style="margin-top: 15px; border: 1px solid #333;">
+  <source src="/media/vid.mp4" type="video/mp4">
+  Your browser does not support the video tag.
+</video>
+      </div>
+      <div class="referral-link-container">
+        <input type="text" class="referral-link" id="referralLink" readonly>
+        <script>
+          const { protocol, hostname } = window.location;
+          document.getElementById('referralLink').value = `contact@vein.sh`;
+        </script>
+        <button class="copy-button" onclick="copyReferralLink()">
+          <i class="fa fa-copy"></i>
+        </button>
+      </div>
+      <div class="referral-list" id="referralsList">
+        <div class="referral-item">
+          <img src="/user/avatar/white.jpg" class="referral-avatar" alt="White">
+          <div class="referral-info">
+            <div class="referral-username">
+              <a href="#" onclick="openModal('White', 'The Legacy lives on forever.', 'Its not worth surrendering.', '/user/avatar/white.jpg')" style="color: #ff0000; font-weight: bold; text-decoration: none; background-image: url('/cdn/red.gif')" onmouseover="this.style.textDecoration='underline'" onmouseout="this.style.textDecoration='none'">
+                White
+              </a>
+            </div>
+            <div class="referral-date"></div>
+          </div>
+          <div class="referral-status active">Founder</div>
+        </div>
+        <div class="referral-item">
+          <img src="/user/avatar/aiko.jpg" class="referral-avatar" alt="Aiko">
+          <div class="referral-info">
+            <div class="referral-username">
+              <a href="#" onclick="openModal('Aiko', 'It never stops.', 'Got to keep up.', '/user/avatar/aiko.jpg')" style="color: #ff0000; font-weight: bold; text-decoration: none; background-image: url('/cdn/red.gif')" onmouseover="this.style.textDecoration='underline'" onmouseout="this.style.textDecoration='none'">
+                Aiko
+              </a>
+            </div>
+            <div class="referral-date"></div>
+          </div>
+          <div class="referral-status active">Founder</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="overlay" id="overlay" onclick="closeModal()"></div>
+<div id="profileModal" class="modal">
+  <div class="profile-avatar">
+    <img src="#" alt="Avatar" id="modalAvatarImg">
+  </div>
+  <h2 id="modalName"></h2>
+  <p id="modalBio"></p>
+  <p id="modalMessage"></p>
+  <div class="comments-wrapper">
+    <div class="comments-list" id="commentsList"></div>
+  </div>
+  <input type="text" id="commentContent" maxlength="250" placeholder="Add an anonymous comment...">
+  <div class="cf-turnstile" data-sitekey="0x4AAAAAAA7KBtIohquuvBr0" data-theme="dark"></div>
+  <div id="commentError"></div>
+  <button onclick="submitComment()" class="add-comment-btn">Add Comment</button>
+</div>
+
+<script>
+  let currentUser = '';
+
+  function openModal(name, bio, message, avatarUrl) {
+    currentUser = name;
+    document.getElementById('modalName').innerText = name;
+    document.getElementById('modalBio').innerText = bio;
+    document.getElementById('modalMessage').innerText = message;
+    document.getElementById('modalAvatarImg').src = avatarUrl;
+    document.getElementById('profileModal').style.display = 'block';
+    document.getElementById('overlay').style.display = 'block';
+    loadComments();
+  }
+
+  function closeModal() {
+    document.getElementById('profileModal').style.display = 'none';
+    document.getElementById('overlay').style.display = 'none';
+  }
+
+  function submitComment() {
+    const commentInput = document.getElementById('commentContent');
+    const errorDiv = document.getElementById('commentError');
+    const captchaResponse = document.querySelector('input[name="cf-turnstile-response"]')?.value;
+
+    if (!captchaResponse || captchaResponse === '0') {
+      errorDiv.style.display = 'block';
+      errorDiv.innerText = 'Please complete the CAPTCHA.';
+      return;
+    }
+
+    if (commentInput.value.trim() === '') {
+      errorDiv.style.display = 'block';
+      errorDiv.innerText = 'Comment cannot be empty!';
+    } else {
+      errorDiv.style.display = 'none';
+      const newComment = {
+        author: "Anonymous",
+        content: commentInput.value.trim(),
+        date: new Date().toISOString()
+      };
+
+      let comments = JSON.parse(localStorage.getItem(currentUser)) || [];
+      comments.push(newComment);
+      localStorage.setItem(currentUser, JSON.stringify(comments));
+
+      commentInput.value = '';
+      loadComments();
+    }
+  }
+
+  function loadComments() {
+    const commentsList = document.getElementById('commentsList');
+    commentsList.innerHTML = '';
+    let comments = JSON.parse(localStorage.getItem(currentUser)) || [];
+    comments.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+    comments.forEach(comment => {
+      const div = document.createElement('div');
+      div.className = 'comment-item';
+      div.innerHTML = `
+        <div class="comment-main">
+          <span class="comment-author">${comment.author}:</span>
+          <span class="comment-content">${comment.content}</span>
+        </div>
+        <div class="comment-info">
+          <span class="comment-date">${formatTimeAgo(new Date(comment.date))}</span>
+        </div>
+      `;
+      commentsList.appendChild(div);
+    });
+  }
+
+  function formatTimeAgo(date) {
+    const seconds = Math.floor((new Date() - date) / 1000);
+    let interval = seconds / 31536000;
+    if (interval > 1) return Math.floor(interval) + " years ago";
+    interval = seconds / 2592000;
+    if (interval > 1) return Math.floor(interval) + " months ago";
+    interval = seconds / 86400;
+    if (interval > 1) return Math.floor(interval) + " days ago";
+    interval = seconds / 3600;
+    if (interval > 1) return Math.floor(interval) + " hours ago";
+    interval = seconds / 60;
+    if (interval > 1) return Math.floor(interval) + " minutes ago";
+    return "just now";
+  }
+
+  function copyReferralLink() {
+    const link = document.getElementById("referralLink");
+    link.select();
+    link.setSelectionRange(0, 99999);
+    document.execCommand("copy");
+    const msg = document.getElementById("copyMessage");
+    msg.innerText = "VEiN contact email copied!";
+    msg.classList.add("success");
+    setTimeout(() => msg.classList.remove("success"), 2000);
+  }
+</script>
+<script>
+  const audio = document.getElementById('entryMusic');
+  const muteBtn = document.getElementById('muteBtn');
+  const volumeSlider = document.getElementById('volumeSlider');
+
+  function enterSite() {
+    audio.play();
+    document.getElementById('enterScreen').style.display = 'none';
+    document.getElementById('siteContent').style.display = 'block';
+  }
+
+  function toggleMute() {
+    audio.muted = !audio.muted;
+    muteBtn.innerHTML = audio.muted ? '<i class="fa fa-volume-mute"></i>' : '<i class="fa fa-volume-up"></i>';
+  }
+
+  function adjustVolume() {
+    audio.volume = volumeSlider.value;
+  }
+</script>
+</body>
+</html>
